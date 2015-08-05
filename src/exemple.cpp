@@ -5,33 +5,24 @@
 
 //Thread for earch client connected
 void client_thread(int socket){
-	try{
 
 		printf("Client connected\n");
 
 		char client_msg[2000];
 		int recv_size;
-		while (1){
+		while ((recv_size = recv(socket, client_msg, 2000, 0)) > 0){
 
-			if ((recv_size = recv(socket, client_msg, 2000, 0)) <= 0){
-				throw "recv fail";
-			}
 			client_msg[recv_size] = '\0';
 
 			printf("%s \t i have receive : %d\n", client_msg, get_current_thread_id());
 
 			if (send(socket, "ok", strlen("ok"), 0) <= 0){
-				throw "send fail";
+				//error
 			}
 
 		}
 
 		return;
-
-	}catch (char const* error_msg){
-		printf("%s\n", error_msg);
-		return;
-	}
 }
 
 
